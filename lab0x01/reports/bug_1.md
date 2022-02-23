@@ -1,6 +1,6 @@
 # BUG-1
 ## Category
-Potential stack overwrite
+Spatial memory safety violation
 
 ## Description
 
