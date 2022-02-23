@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
 
   /* Assign names to arguments for better abstraction */
   char output_name[OUTPUT_NAME_SIZE];
-  strcpy(output_name, argv[1]);
+  strncpy(output_name, argv[1], OUTPUT_NAME_SIZE);
   const char *height_arg = argv[2];
   const char *width_arg = argv[3];
   const char *hex_color_arg = argv[4];

@@ -1,2 +1,8 @@
 .DS_Store
-
+lab0x01/src/checkerboard
+lab0x01/src/circle
+lab0x01/src/filter
+lab0x01/src/rect
+lab0x01/src/resize
+lab0x01/src/solid
+lab0x01/src/tests
