@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
    */
 
   char *end_ptr;
-  long hex_color = strtol(argv[7], end_ptr, 16);
+  long hex_color = strtol(argv[7], &end_ptr, 16);
   if (*end_ptr || strlen(argv[7]) != 6 || hex_color < 0) {
     hex_color = 0;
   }
@@ -59,8 +59,8 @@ int main(int argc, char *argv[]) {
    * - above BR
    */
   unsigned i = 0;
-  unsigned j = 0;
   while (i < height) {
+    unsigned j = 0;
     while (j < width) {
       // Check if the pixel is in the rectangle
 
@@ -72,14 +72,14 @@ int main(int argc, char *argv[]) {
          * the bytes representing red. We then shift them to the right to bring
          * them into the correct range
          */
-        image_data[i][j].red = (hex_color & 0xff0000) >> 16;
-        image_data[i][j].green = (hex_color & 0x00ff00) >> 8;
-        image_data[i][j].blue = (hex_color & 0x0000ff);
-        image_data[i][j].alpha = 0xff;
+        image_data[j][i].red = (hex_color & 0xff0000) >> 16;
+        image_data[j][i].green = (hex_color & 0x00ff00) >> 8;
+        image_data[j][i].blue = (hex_color & 0x0000ff);
+        image_data[j][i].alpha = 0xff;
       }
-      i++;
       j++;
     }
+    i++;
   }
 
   store_png(output, img, NULL, 0);
