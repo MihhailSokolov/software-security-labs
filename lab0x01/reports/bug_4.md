@@ -1,6 +1,6 @@
 # BUG-4
 ## Category
-Spatial memory safety violation
+Stack buffer overflow/underflow
 
 ## Description
 

@@ -1,6 +1,6 @@
 # BUG-8
 ## Category
-Spatial memory asfety violation
+Heap overfow/underflow
 
 ## Description
 

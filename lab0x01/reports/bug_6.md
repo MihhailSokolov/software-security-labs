@@ -1,6 +1,6 @@
 # BUG-6
 ## Category
-Pointer value used instead of address.
+Type error
 
 ## Description
 

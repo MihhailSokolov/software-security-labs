@@ -1,6 +1,6 @@
 # BUG-3
 ## Category
-Spatial memory safety violation
+Stack buffer overflow/underflow
 
 ## Description
 

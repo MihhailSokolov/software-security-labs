@@ -1,6 +1,6 @@
 # BUG-5
 ## Category
-Wrong operator
+Wrong operators/variables
 
 ## Description
 

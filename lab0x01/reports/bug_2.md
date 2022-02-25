@@ -1,6 +1,6 @@
 # BUG-2
 ## Category
-Temporal memory safety violation
+Temporal safety violation
 
 ## Description
 
