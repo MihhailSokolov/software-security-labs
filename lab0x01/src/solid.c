@@ -27,7 +27,11 @@ int main(int argc, char *argv[]) {
   if (argc != 5) {
     goto error;
   }
-
+  
+  if (strchr(argv[1], ';') != NULL) {
+    goto error;
+  }
+  
   /* Assign names to arguments for better abstraction */
   char output_name[OUTPUT_NAME_SIZE];
   strncpy(output_name, argv[1], OUTPUT_NAME_SIZE);
