@@ -4,7 +4,7 @@ Unchecked system call returning code
 
 ## Description
 
-After allocating memory for `pallete`, a program doesn't check that the memory was actually successfully allocated. In case the memory wasn't allocated, it will result in the segmentation fault.
+After allocating memory for `palette`, a program doesn't check that the memory was actually successfully allocated. In case the memory wasn't allocated, it will result in the segmentation fault.
 
 ## Affected Lines in the original program
 In `solid.c:16`, `solid.c:65-68`
@@ -23,9 +23,10 @@ We expect program to check that it operates under correct assumptions i.e. when 
 (Not needed)
 
 ## Suggested Fix Description
-After allocating memory for `pallete`, a check must be made to ensure that allocation was indeed successful:
+After allocating memory for `palette`, a check must be made to ensure that allocation was indeed successful:
 ```c
 if (!palette) {
-    goto error_mem;
+    printf("Couldn't allocate memory for palette");
+    return 1;
 }
 ```
