@@ -16,7 +16,8 @@ int main(int argc, char *argv[]) {
   struct pixel *palette = allocate_palette();
 
   if (!palette) {
-    goto error_mem;
+    printf("Couldn't allocate memory for palette");
+    return 1;
   }
 
   /*
@@ -112,6 +113,7 @@ int main(int argc, char *argv[]) {
     goto error_px;
   }
 
+  free(palette);
   free(img->px);
   free(img);
 
@@ -148,6 +150,7 @@ error_px:
 error_img:
   free(img);
 error_mem:
+  free(palette);
   printf("Couldn't allocate memory\n");
   return 1;
 }
