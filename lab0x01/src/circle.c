@@ -38,6 +38,12 @@ int main(int argc, char *argv[]) {
   unsigned height = img->size_y;
   unsigned width = img->size_x;
 
+  if (center_x + radius > width || center_x - radius < 0 || center_y + radius > height || center_y - radius < 0) {
+    printf("Incorrect center or radius\n");
+    free(img);
+    return 1;
+  }
+
   struct pixel(*image_data)[width] = (struct pixel(*)[width])img->px;
 
   /* We will iterate through all the x coordinate values in the pixel and
