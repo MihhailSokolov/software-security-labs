@@ -1,31 +1,26 @@
-# BUG-11
+# BUG-12
 ## Category
-Command injection
+Heap overflow/underflow
 
 ## Description
 
-An attacker can inject arbitrary commands because user input is used directly in system call: `stat -c output_name`.
+If width or heigh is not multiple of the square width, then some memory outside of the image gets overwritten.
 
 ## Affected Lines in the original program
-In `solid.c:123`, `solid.c:124`, `solid.c:125`
+In `checkerboard.c:113-122`
 
 ## Expected vs Observed
-We expect program to be secure and not allow for arbitrary command execution. We observe that user can execute any command through injection in the output file name.
+We expect program to work with images of all sizes. We observe that a program crashes whenever the image size is not a multiple of the square size.
 
 ## Steps to Reproduce
 
 ### Command
 
 ```
-./solid "img.png; ls" 100 100 ffffff
+./checkerboard bw.png 100 95 10 ffffff 000000
 ```
 ### Proof-of-Concept Input (if needed)
 (Not needed)
 
 ## Suggested Fix Description
-We can add the following sanitization check:
-```c
-if (strchr(argv[1], ';') != NULL) {
-    goto error;
-}
-```
+Need to check if the place where square ends is still within the image i.e. current width + square width < total width
