@@ -4,7 +4,7 @@ Memory leak
 
 ## Description
 
-After allocating memory for `pallete`, that memory is never freed.
+After allocating memory for `palette`, that memory is never freed.
 
 ## Affected Lines in the original program
 In `solid.c:16`
@@ -23,4 +23,4 @@ We expect program to free the allocated memory as soon as that memory is not nee
 (Not needed)
 
 ## Suggested Fix Description
-After usage of `pallete` is done, free that memory.
+After usage of `palette` is done, free that memory.

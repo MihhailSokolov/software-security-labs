@@ -74,6 +74,9 @@ void filter_blur(struct image *img, void *r) {
            *
            * FIX: Limit reads only to valid memory
            */
+          if (i + y_offset >= img->size_y || i + y_offset < 0 || j + x_offset >= img->size_x || j + x_offset < 0) {
+            continue;
+          }
           struct pixel current = image_data[i + y_offset][j + x_offset];
 
           red += current.red;
@@ -105,8 +108,12 @@ void filter_blur(struct image *img, void *r) {
 
 /* We allocate and return a pixel */
 struct pixel *get_pixel() {
-  struct pixel px;
-  return &px;
+  struct pixel *px = malloc(sizeof(struct pixel));
+  if (!px) {
+    printf("Could not allocate memory for pixel");
+    exit(1);
+  }
+  return px;
 }
 
 /* This filter just negates every color in the image */
