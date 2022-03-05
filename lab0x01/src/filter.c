@@ -215,6 +215,7 @@ void filter_edge_detect(struct image *img, void *threshold_arg) {
             new_data[i][j] = *new_pixel;
         }
     }
+    
     long i = 0;
     for (long j = 1; j < img->size_x-1; j++) {
         double g_red_x = image_data[i][j-1].red * weights_x[1][0] + image_data[i+1][j-1].red * weights_x[2][0] + image_data[i][j].red * weights_x[1][1] + image_data[i+1][j].red * weights_x[2][1] + image_data[i][j+1].red * weights_x[1][2] + image_data[i+1][j+1].red * weights_x[2][2];
@@ -241,7 +242,7 @@ void filter_edge_detect(struct image *img, void *threshold_arg) {
         new_data[i][j] = *new_pixel;
     }
 
-    long i = img->size_y - 1;
+    i = img->size_y - 1;
     for (long j = 1; j < img->size_x-1; j++) {
         double g_red_x = image_data[i-1][j-1].red * weights_x[0][0] + image_data[i][j-1].red * weights_x[1][0] + image_data[i-1][j].red * weights_x[0][1] + image_data[i][j].red * weights_x[1][1] + image_data[i-1][j+1].red * weights_x[0][2] + image_data[i][j+1].red * weights_x[1][2];
         double g_green_x = image_data[i-1][j-1].green * weights_x[0][0] + image_data[i][j-1].green * weights_x[1][0] + image_data[i-1][j].green * weights_x[0][1] + image_data[i][j].green * weights_x[1][1] + image_data[i-1][j+1].green * weights_x[0][2] + image_data[i][j+1].green * weights_x[1][2];
@@ -293,7 +294,7 @@ void filter_edge_detect(struct image *img, void *threshold_arg) {
         new_data[i][j] = *new_pixel;
     }
 
-    long j = img->size_x - 1;
+    j = img->size_x - 1;
     for (long i = 1; i < img->size_y-1; i++) {
         double g_red_x = image_data[i-1][j-1].red * weights_x[0][0] + image_data[i][j-1].red * weights_x[1][0] + image_data[i+1][j-1].red * weights_x[2][0] + image_data[i-1][j].red * weights_x[0][1] + image_data[i][j].red * weights_x[1][1] + image_data[i+1][j].red * weights_x[2][1];
         double g_green_x = image_data[i-1][j-1].green * weights_x[0][0] + image_data[i][j-1].green * weights_x[1][0] + image_data[i+1][j-1].green * weights_x[2][0] + image_data[i-1][j].green * weights_x[0][1] + image_data[i][j].green * weights_x[1][1] + image_data[i+1][j].green * weights_x[2][1];
@@ -319,7 +320,8 @@ void filter_edge_detect(struct image *img, void *threshold_arg) {
         new_data[i][j] = *new_pixel;
     }
 
-    long i = 0, j = 0;
+    i = 0;
+    j = 0;
     double g_red_x = image_data[i][j].red * weights_x[1][1] + image_data[i+1][j].red * weights_x[2][1] + image_data[i][j+1].red * weights_x[1][2] + image_data[i+1][j+1].red * weights_x[2][2];
     double g_green_x = image_data[i][j].green * weights_x[1][1] + image_data[i+1][j].green * weights_x[2][1] + image_data[i][j+1].green * weights_x[1][2] + image_data[i+1][j+1].green * weights_x[2][2];
     double g_blue_x = image_data[i][j].blue * weights_x[1][1] + image_data[i+1][j].blue * weights_x[2][1] + image_data[i][j+1].blue * weights_x[1][2] + image_data[i+1][j+1].blue * weights_x[2][2];
@@ -343,18 +345,18 @@ void filter_edge_detect(struct image *img, void *threshold_arg) {
     }
     new_data[i][j] = *new_pixel;
 
-    long i = img->size_y - 1, j = 0;
-    double g_red_x = image_data[i-1][j].red * weights_x[0][1] + image_data[i][j].red * weights_x[1][1] + image_data[i-1][j+1].red * weights_x[0][2] + image_data[i][j+1].red * weights_x[1][2];
-    double g_green_x = image_data[i-1][j].green * weights_x[0][1] + image_data[i][j].green * weights_x[1][1] + image_data[i-1][j+1].green * weights_x[0][2] + image_data[i][j+1].green * weights_x[1][2];
-    double g_blue_x = image_data[i-1][j].blue * weights_x[0][1] + image_data[i][j].blue * weights_x[1][1] + image_data[i-1][j+1].blue * weights_x[0][2] + image_data[i][j+1].blue * weights_x[1][2];
-    double g_red_y = image_data[i-1][j].red * weights_y[0][1] + image_data[i][j].red * weights_y[1][1] + image_data[i-1][j+1].red * weights_y[0][2] + image_data[i][j+1].red * weights_y[1][2];
-    double g_green_y = image_data[i-1][j].green * weights_y[0][1] + image_data[i][j].green * weights_y[1][1] + image_data[i-1][j+1].green * weights_y[0][2] + image_data[i][j+1].green * weights_y[1][2];
-    double g_blue_y = image_data[i-1][j].blue * weights_y[0][1] + image_data[i][j].blue * weights_y[1][1] + image_data[i-1][j+1].blue * weights_y[0][2] + image_data[i][j+1].blue * weights_y[1][2]; 
-    double g_red = sqrt(pow(g_red_x, (double) 2) + pow(g_red_y, (double) 2));
-    double g_green = sqrt(pow(g_green_x, (double) 2) + pow(g_green_y, (double) 2));
-    double g_blue = sqrt(pow(g_blue_x, (double) 2) + pow(g_blue_y, (double) 2));
-    double g = sqrt(pow(g_red, (double) 2) + pow(g_green, (double) 2) + pow(g_blue, (double) 2));
-    struct pixel *new_pixel = get_pixel();
+    i = img->size_y - 1, j = 0;
+    g_red_x = image_data[i-1][j].red * weights_x[0][1] + image_data[i][j].red * weights_x[1][1] + image_data[i-1][j+1].red * weights_x[0][2] + image_data[i][j+1].red * weights_x[1][2];
+    g_green_x = image_data[i-1][j].green * weights_x[0][1] + image_data[i][j].green * weights_x[1][1] + image_data[i-1][j+1].green * weights_x[0][2] + image_data[i][j+1].green * weights_x[1][2];
+    g_blue_x = image_data[i-1][j].blue * weights_x[0][1] + image_data[i][j].blue * weights_x[1][1] + image_data[i-1][j+1].blue * weights_x[0][2] + image_data[i][j+1].blue * weights_x[1][2];
+    g_red_y = image_data[i-1][j].red * weights_y[0][1] + image_data[i][j].red * weights_y[1][1] + image_data[i-1][j+1].red * weights_y[0][2] + image_data[i][j+1].red * weights_y[1][2];
+    g_green_y = image_data[i-1][j].green * weights_y[0][1] + image_data[i][j].green * weights_y[1][1] + image_data[i-1][j+1].green * weights_y[0][2] + image_data[i][j+1].green * weights_y[1][2];
+    g_blue_y = image_data[i-1][j].blue * weights_y[0][1] + image_data[i][j].blue * weights_y[1][1] + image_data[i-1][j+1].blue * weights_y[0][2] + image_data[i][j+1].blue * weights_y[1][2]; 
+    g_red = sqrt(pow(g_red_x, (double) 2) + pow(g_red_y, (double) 2));
+    g_green = sqrt(pow(g_green_x, (double) 2) + pow(g_green_y, (double) 2));
+    g_blue = sqrt(pow(g_blue_x, (double) 2) + pow(g_blue_y, (double) 2));
+    g = sqrt(pow(g_red, (double) 2) + pow(g_green, (double) 2) + pow(g_blue, (double) 2));
+    new_pixel = get_pixel();
     new_pixel->alpha = image_data[i][j].alpha;
     if (g > threshold) {
         new_pixel->red = 0;
@@ -367,19 +369,18 @@ void filter_edge_detect(struct image *img, void *threshold_arg) {
     }
     new_data[i][j] = *new_pixel;
 
-    long i = 0, j = img->size_x - 1;
-    double g_red_x = image_data[i][j-1].red * weights_x[1][0] + image_data[i+1][j-1].red * weights_x[2][0] + image_data[i][j].red * weights_x[1][1] + image_data[i+1][j].red * weights_x[2][1];
-    double g_green_x = image_data[i][j-1].green * weights_x[1][0] + image_data[i+1][j-1].green * weights_x[2][0] + image_data[i][j].green * weights_x[1][1] + image_data[i+1][j].green * weights_x[2][1];
-    double g_blue_x = image_data[i][j-1].blue * weights_x[1][0] + image_data[i+1][j-1].blue * weights_x[2][0] + image_data[i][j].blue * weights_x[1][1] + image_data[i+1][j].blue * weights_x[2][1];
-    
-    double g_red_y = image_data[i][j-1].red * weights_y[1][0] + image_data[i+1][j-1].red * weights_y[2][0] + image_data[i][j].red * weights_y[1][1] + image_data[i+1][j].red * weights_y[2][1];
-    double g_green_y = image_data[i][j-1].green * weights_y[1][0] + image_data[i+1][j-1].green * weights_y[2][0] + image_data[i][j].green * weights_y[1][1] + image_data[i+1][j].green * weights_y[2][1];
-    double g_blue_y = image_data[i][j-1].blue * weights_y[1][0] + image_data[i+1][j-1].blue * weights_y[2][0] + image_data[i][j].blue * weights_y[1][1] + image_data[i+1][j].blue * weights_y[2][1];  
-    double g_red = sqrt(pow(g_red_x, (double) 2) + pow(g_red_y, (double) 2));
-    double g_green = sqrt(pow(g_green_x, (double) 2) + pow(g_green_y, (double) 2));
-    double g_blue = sqrt(pow(g_blue_x, (double) 2) + pow(g_blue_y, (double) 2));
-    double g = sqrt(pow(g_red, (double) 2) + pow(g_green, (double) 2) + pow(g_blue, (double) 2));
-    struct pixel *new_pixel = get_pixel();
+    i = 0, j = img->size_x - 1;
+    g_red_x = image_data[i][j-1].red * weights_x[1][0] + image_data[i+1][j-1].red * weights_x[2][0] + image_data[i][j].red * weights_x[1][1] + image_data[i+1][j].red * weights_x[2][1];
+    g_green_x = image_data[i][j-1].green * weights_x[1][0] + image_data[i+1][j-1].green * weights_x[2][0] + image_data[i][j].green * weights_x[1][1] + image_data[i+1][j].green * weights_x[2][1];
+    g_blue_x = image_data[i][j-1].blue * weights_x[1][0] + image_data[i+1][j-1].blue * weights_x[2][0] + image_data[i][j].blue * weights_x[1][1] + image_data[i+1][j].blue * weights_x[2][1];
+    g_red_y = image_data[i][j-1].red * weights_y[1][0] + image_data[i+1][j-1].red * weights_y[2][0] + image_data[i][j].red * weights_y[1][1] + image_data[i+1][j].red * weights_y[2][1];
+    g_green_y = image_data[i][j-1].green * weights_y[1][0] + image_data[i+1][j-1].green * weights_y[2][0] + image_data[i][j].green * weights_y[1][1] + image_data[i+1][j].green * weights_y[2][1];
+    g_blue_y = image_data[i][j-1].blue * weights_y[1][0] + image_data[i+1][j-1].blue * weights_y[2][0] + image_data[i][j].blue * weights_y[1][1] + image_data[i+1][j].blue * weights_y[2][1];  
+    g_red = sqrt(pow(g_red_x, (double) 2) + pow(g_red_y, (double) 2));
+    g_green = sqrt(pow(g_green_x, (double) 2) + pow(g_green_y, (double) 2));
+    g_blue = sqrt(pow(g_blue_x, (double) 2) + pow(g_blue_y, (double) 2));
+    g = sqrt(pow(g_red, (double) 2) + pow(g_green, (double) 2) + pow(g_blue, (double) 2));
+    new_pixel = get_pixel();
     new_pixel->alpha = image_data[i][j].alpha;
     if (g > threshold) {
         new_pixel->red = 0;
@@ -392,18 +393,18 @@ void filter_edge_detect(struct image *img, void *threshold_arg) {
     }
     new_data[i][j] = *new_pixel;
 
-    long i = img->size_y - 1, j = img->size_x - 1;
-    double g_red_x = image_data[i-1][j-1].red * weights_x[0][0] + image_data[i][j-1].red * weights_x[1][0] + image_data[i-1][j].red * weights_x[0][1] + image_data[i][j].red * weights_x[1][1];
-    double g_green_x = image_data[i-1][j-1].green * weights_x[0][0] + image_data[i][j-1].green * weights_x[1][0] + image_data[i-1][j].green * weights_x[0][1] + image_data[i][j].green * weights_x[1][1];
-    double g_blue_x = image_data[i-1][j-1].blue * weights_x[0][0] + image_data[i][j-1].blue * weights_x[1][0] + image_data[i-1][j].blue * weights_x[0][1] + image_data[i][j].blue * weights_x[1][1];
-    double g_red_y = image_data[i-1][j-1].red * weights_y[0][0] + image_data[i][j-1].red * weights_y[1][0] + image_data[i-1][j].red * weights_y[0][1] + image_data[i][j].red * weights_y[1][1];
-    double g_green_y = image_data[i-1][j-1].green * weights_y[0][0] + image_data[i][j-1].green * weights_y[1][0] + image_data[i-1][j].green * weights_y[0][1] + image_data[i][j].green * weights_y[1][1];
-    double g_blue_y = image_data[i-1][j-1].blue * weights_y[0][0] + image_data[i][j-1].blue * weights_y[1][0] + image_data[i-1][j].blue * weights_y[0][1] + image_data[i][j].blue * weights_y[1][1];
-    double g_red = sqrt(pow(g_red_x, (double) 2) + pow(g_red_y, (double) 2));
-    double g_green = sqrt(pow(g_green_x, (double) 2) + pow(g_green_y, (double) 2));
-    double g_blue = sqrt(pow(g_blue_x, (double) 2) + pow(g_blue_y, (double) 2));
-    double g = sqrt(pow(g_red, (double) 2) + pow(g_green, (double) 2) + pow(g_blue, (double) 2));
-    struct pixel *new_pixel = get_pixel();
+    i = img->size_y - 1, j = img->size_x - 1;
+    g_red_x = image_data[i-1][j-1].red * weights_x[0][0] + image_data[i][j-1].red * weights_x[1][0] + image_data[i-1][j].red * weights_x[0][1] + image_data[i][j].red * weights_x[1][1];
+    g_green_x = image_data[i-1][j-1].green * weights_x[0][0] + image_data[i][j-1].green * weights_x[1][0] + image_data[i-1][j].green * weights_x[0][1] + image_data[i][j].green * weights_x[1][1];
+    g_blue_x = image_data[i-1][j-1].blue * weights_x[0][0] + image_data[i][j-1].blue * weights_x[1][0] + image_data[i-1][j].blue * weights_x[0][1] + image_data[i][j].blue * weights_x[1][1];
+    g_red_y = image_data[i-1][j-1].red * weights_y[0][0] + image_data[i][j-1].red * weights_y[1][0] + image_data[i-1][j].red * weights_y[0][1] + image_data[i][j].red * weights_y[1][1];
+    g_green_y = image_data[i-1][j-1].green * weights_y[0][0] + image_data[i][j-1].green * weights_y[1][0] + image_data[i-1][j].green * weights_y[0][1] + image_data[i][j].green * weights_y[1][1];
+    g_blue_y = image_data[i-1][j-1].blue * weights_y[0][0] + image_data[i][j-1].blue * weights_y[1][0] + image_data[i-1][j].blue * weights_y[0][1] + image_data[i][j].blue * weights_y[1][1];
+    g_red = sqrt(pow(g_red_x, (double) 2) + pow(g_red_y, (double) 2));
+    g_green = sqrt(pow(g_green_x, (double) 2) + pow(g_green_y, (double) 2));
+    g_blue = sqrt(pow(g_blue_x, (double) 2) + pow(g_blue_y, (double) 2));
+    g = sqrt(pow(g_red, (double) 2) + pow(g_green, (double) 2) + pow(g_blue, (double) 2));
+    new_pixel = get_pixel();
     new_pixel->alpha = image_data[i][j].alpha;
     if (g > threshold) {
         new_pixel->red = 0;
