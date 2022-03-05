@@ -17,7 +17,7 @@ We expect program to work properly given correct arguments. We observe that prog
 ### Command
 
 ```
-/filter test_imgs/ck.png blurred_ck.png blur 5
+./filter test_imgs/ck.png blurred_ck.png blur 5
 ```
 ### Proof-of-Concept Input (if needed)
 (Not needed)
