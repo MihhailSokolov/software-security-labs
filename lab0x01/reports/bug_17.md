@@ -17,7 +17,7 @@ We expect program to work properly given correct arguments. We observe that prog
 ### Command
 
 ```
-???
+./filter test_imgs/ck.png neg_ck.png negative
 ```
 ### Proof-of-Concept Input (if needed)
 (Not needed)
