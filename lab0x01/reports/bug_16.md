@@ -17,7 +17,7 @@ We expect program to allocate the memory it needs. We observe that program doesn
 ### Command
 
 ```
-???
+./filter test_imgs/ck.png neg_ck.png negative
 ```
 ### Proof-of-Concept Input (if needed)
 (Not needed)
