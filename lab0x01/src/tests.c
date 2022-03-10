@@ -182,24 +182,21 @@ char *grayscale_output[] = {"test_imgs/desert_gray.png",
                             "test_imgs/summer_gray.png"};
 START_TEST(grayscale_examples) {
   double weights[] = {0.2125, 0.7154, 0.0721};
-  struct image *img, *new_img;
+  struct image img, new_img;
   ck_assert_int_eq(load_png(grayscale_sources[_i], &img), 0);
-  filter_grayscale(img, weights);
+  filter_grayscale(&img, weights);
 
-  /* Compare with good image*/
   ck_assert_int_eq(load_png(grayscale_output[_i], &new_img), 0);
-  ck_assert_uint_eq(new_img->size_x, img->size_x);
-  ck_assert_uint_eq(new_img->size_x, img->size_x);
-  for (long j = 0; j < img->size_x * img->size_y; j++) { 
-    ck_assert_uint_eq(img->px[j].red, new_img->px[j].red);
-    ck_assert_uint_eq(img->px[j].green, new_img->px[j].green);
-    ck_assert_uint_eq(img->px[j].blue, new_img->px[j].blue);
-    ck_assert_uint_eq(img->px[j].alpha, new_img->px[j].alpha);
+  ck_assert_uint_eq(new_img.size_x, img.size_x);
+  ck_assert_uint_eq(new_img.size_x, img.size_x);
+  for (long j = 0; j < img.size_x * img.size_y; j++) { 
+    ck_assert_uint_eq(img.px[j].red, new_img.px[j].red);
+    ck_assert_uint_eq(img.px[j].green, new_img.px[j].green);
+    ck_assert_uint_eq(img.px[j].blue, new_img.px[j].blue);
+    ck_assert_uint_eq(img.px[j].alpha, new_img.px[j].alpha);
   }
-  free(new_img->px);
-  free(new_img);
-  free(img->px);
-  free(img);
+  free(new_img.px);
+  free(img.px);
 }
 END_TEST
 
@@ -207,43 +204,43 @@ END_TEST
  * Then invert the result again and verify that you get a black image back
  * The alpha channel needs to be intact in both cases */
 START_TEST(negative_functionality) {
-  struct image *img;
-  img->size_x = 42;
-  img->size_y = 42;
-  img->px = malloc(img->size_x * img->size_y * sizeof(struct pixel));
-  if(!img->px)
+  struct image img;
+  img.size_x = 42;
+  img.size_y = 42;
+  img.px = malloc(img.size_x * img.size_y * sizeof(struct pixel));
+  if(!img.px)
     assert(0 && "Rerun test, malloc failed");
-  for(long i = 0; i < img->size_y * img->size_x; i++) {
-    img->px[i].red = 0;
-    img->px[i].green = 0;
-    img->px[i].blue = 0;
-    img->px[i].alpha = 255;
+  for(long i = 0; i < img.size_y * img.size_x; i++) {
+    img.px[i].red = 0;
+    img.px[i].green = 0;
+    img.px[i].blue = 0;
+    img.px[i].alpha = 255;
   }
-  filter_negative(img, NULL);
-  for(long i = 0; i < img->size_y * img->size_x; i++) {
-    ck_assert_uint_eq(img->px[i].red, 255);
-    ck_assert_uint_eq(img->px[i].green, 255);
-    ck_assert_uint_eq(img->px[i].blue, 255);
-    ck_assert_uint_eq(img->px[i].alpha, 255);
+  filter_negative(&img, NULL);
+  for(long i = 0; i < img.size_y * img->size_x; i++) {
+    ck_assert_uint_eq(img.px[i].red, 255);
+    ck_assert_uint_eq(img.px[i].green, 255);
+    ck_assert_uint_eq(img.px[i].blue, 255);
+    ck_assert_uint_eq(img.px[i].alpha, 255);
   }
-  filter_negative(img, NULL);
-  for(long i = 0; i < img->size_y * img->size_x; i++) {
-    ck_assert_uint_eq(img->px[i].red, 0);
-    ck_assert_uint_eq(img->px[i].green, 0);
-    ck_assert_uint_eq(img->px[i].blue, 0);
-    ck_assert_uint_eq(img->px[i].alpha, 255);
+  filter_negative(&img, NULL);
+  for(long i = 0; i < img.size_y * img.size_x; i++) {
+    ck_assert_uint_eq(img.px[i].red, 0);
+    ck_assert_uint_eq(img.px[i].green, 0);
+    ck_assert_uint_eq(img.px[i].blue, 0);
+    ck_assert_uint_eq(img.px[i].alpha, 255);
   }
-  free(img->px);
+  free(img.px);
 }
 END_TEST
 
 /* Check if the filter doesn't crash when we pass a 0x0 image */
 START_TEST(negative_zero_size) {
-  struct image *img;
-  img->size_x = 0;
-  img->size_y = 0;
-  img->px = malloc(img->size_x * img->size_y * sizeof(struct pixel));
-  filter_negative(img, NULL);
+  struct image img;
+  img.size_x = 0;
+  img.size_y = 0;
+  img.px = malloc(img.size_x * img.size_y * sizeof(struct pixel));
+  filter_negative(&img, NULL);
 }
 END_TEST
 
