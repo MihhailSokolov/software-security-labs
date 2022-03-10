@@ -204,31 +204,32 @@ END_TEST
  * Then invert the result again and verify that you get a black image back
  * The alpha channel needs to be intact in both cases */
 START_TEST(negative_functionality) {
+  srand(time(NULL) ^ getpid());
   struct image img;
-  img.size_x = 42;
-  img.size_y = 42;
+  img.size_x = (rand() % 127) + 1;
+  img.size_y = (rand() % 127) + 1;
   img.px = malloc(img.size_x * img.size_y * sizeof(struct pixel));
   if(!img.px)
     assert(0 && "Rerun test, malloc failed");
-  for(long i = 0; i < img.size_y * img.size_x; i++) {
+  for(long i = 0; i < img.size_x * img.size_y; i++) {
     img.px[i].red = 0;
     img.px[i].green = 0;
     img.px[i].blue = 0;
-    img.px[i].alpha = 255;
+    img.px[i].alpha = 128;
   }
   filter_negative(&img, NULL);
-  for(long i = 0; i < img.size_y * img.size_x; i++) {
+  for(long i = 0; i < img.size_x * img.size_y; i++) {
     ck_assert_uint_eq(img.px[i].red, 255);
     ck_assert_uint_eq(img.px[i].green, 255);
     ck_assert_uint_eq(img.px[i].blue, 255);
-    ck_assert_uint_eq(img.px[i].alpha, 255);
+    ck_assert_uint_eq(img.px[i].alpha, 128);
   }
   filter_negative(&img, NULL);
-  for(long i = 0; i < img.size_y * img.size_x; i++) {
+  for(long i = 0; i < img.size_x * img.size_y; i++) {
     ck_assert_uint_eq(img.px[i].red, 0);
     ck_assert_uint_eq(img.px[i].green, 0);
     ck_assert_uint_eq(img.px[i].blue, 0);
-    ck_assert_uint_eq(img.px[i].alpha, 255);
+    ck_assert_uint_eq(img.px[i].alpha, 128);
   }
   free(img.px);
 }
@@ -269,10 +270,12 @@ END_TEST
 
 /* Verify for a random image that the transparency filter works properly */
 START_TEST(transparency_functionality) {
+  srand(time(NULL) ^ getpid());
   struct image img = generate_rand_img();
-  filter_transparency(&img, 42);
+  uint8_t alpha = rand();
+  filter_transparency(&img, &alpha);
   for (int i = 0; i < img.size_x * img.size_y; i++){
-    ck_assert_uint_eq(img.px[i].alpha, 42);
+    ck_assert_uint_eq(img.px[i].alpha, alpha);
   }
 }
 END_TEST
@@ -312,7 +315,7 @@ int main() {
 
   /* Tests for functionality */
   tcase_add_test(tc2, grayscale_functionality);
-  /* TODO: Add looped test case for grayscale_examples */
+  tcase_add_test(tc2, grayscale_examples);
   tcase_add_test(tc2, negative_functionality);
   tcase_add_test(tc2, blur_functionality);
   tcase_add_test(tc2, transparency_functionality);
