@@ -242,6 +242,7 @@ START_TEST(negative_zero_size) {
   struct image *img;
   img->size_x = 0;
   img->size_y = 0;
+  img->px = malloc(img->size_x * img->size_y * sizeof(struct pixel));
   filter_negative(img, NULL);
 }
 END_TEST
