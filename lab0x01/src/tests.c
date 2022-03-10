@@ -217,7 +217,7 @@ START_TEST(negative_functionality) {
     img.px[i].alpha = 255;
   }
   filter_negative(&img, NULL);
-  for(long i = 0; i < img.size_y * img->size_x; i++) {
+  for(long i = 0; i < img.size_y * img.size_x; i++) {
     ck_assert_uint_eq(img.px[i].red, 255);
     ck_assert_uint_eq(img.px[i].green, 255);
     ck_assert_uint_eq(img.px[i].blue, 255);
