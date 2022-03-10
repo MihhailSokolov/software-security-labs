@@ -182,21 +182,22 @@ char *grayscale_output[] = {"test_imgs/desert_gray.png",
                             "test_imgs/summer_gray.png"};
 START_TEST(grayscale_examples) {
   double weights[] = {0.2125, 0.7154, 0.0721};
-  struct image img, new_img;
+  struct image *img, *new_img;
   ck_assert_int_eq(load_png(grayscale_sources[_i], &img), 0);
-  filter_grayscale(&img, weights);
-
+  filter_grayscale(img, weights);
   ck_assert_int_eq(load_png(grayscale_output[_i], &new_img), 0);
-  ck_assert_uint_eq(new_img.size_x, img.size_x);
-  ck_assert_uint_eq(new_img.size_x, img.size_x);
-  for (long j = 0; j < img.size_x * img.size_y; j++) { 
-    ck_assert_uint_eq(img.px[j].red, new_img.px[j].red);
-    ck_assert_uint_eq(img.px[j].green, new_img.px[j].green);
-    ck_assert_uint_eq(img.px[j].blue, new_img.px[j].blue);
-    ck_assert_uint_eq(img.px[j].alpha, new_img.px[j].alpha);
+  ck_assert_uint_eq(new_img->size_x, img->size_x);
+  ck_assert_uint_eq(new_img->size_x, img->size_x);
+  for (long j = 0; j < img->size_x * img->size_y; j++) { 
+    ck_assert_uint_eq(new_img->px[j].red, img->px[j].red);
+    ck_assert_uint_eq(new_img->px[j].green, img->px[j].green);
+    ck_assert_uint_eq(new_img->px[j].blue, img->px[j].blue);
+    ck_assert_uint_eq(new_img->px[j].alpha, img->px[j].alpha);
   }
-  free(new_img.px);
-  free(img.px);
+  free(new_img->px);
+  free(new_img);
+  free(img->px);
+  free(img);
 }
 END_TEST
 
