@@ -135,7 +135,12 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  store_png(output_name, img, palette, 2);
+  if (store_png(output_name, img, palette, 2)) {
+    free(img->px);
+    free(img);
+    printf("Error saving the image\n");
+    return 1;
+  }
 
   free(img->px);
   free(img);
