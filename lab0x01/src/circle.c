@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
    *
    * A radius of 0 means a single pixel in the center
    */
-  for (int x = center_x - radius; x <= center_x + radius; x++) {
+  for (int x = center_x - radius; x < center_x + radius; x++) {
     int y = round(center_y +
                   sqrt(radius * radius - (x - center_x) * (x - center_x)));
 
@@ -79,7 +79,7 @@ int main(int argc, char *argv[]) {
    *
    * In practice a more efficient rasterization algorithm is used.
    */
-  for (int y = center_y - radius; y <= center_y + radius; y++) {
+  for (int y = center_y - radius; y < center_y + radius; y++) {
     int x = round(center_x +
                   sqrt(radius * radius - (y - center_y) * (y - center_y)));
 
@@ -97,7 +97,12 @@ int main(int argc, char *argv[]) {
     image_data[y][x].alpha = 0xff;
   }
 
-  store_png(output, img, NULL, 0);
+  if (store_png(output, img, NULL, 0)) {
+    free(img->px);
+    free(img);
+    printf("Error saving the image\n");
+    return 1;
+  }
   free(img->px);
   free(img);
   return 0;
