@@ -23,9 +23,12 @@ We expect program to be secure and not allow for arbitrary command execution. We
 (Not needed)
 
 ## Suggested Fix Description
-We can add the following sanitization check:
+Use different ways to get the file size instead of providing a system call built from the user input.
+For example, we can use:
 ```c
-if (strchr(argv[1], ';') != NULL) {
-    goto error;
-}
+#include <sys/stat.h>
+struct stat st;
+stat(filename, &st);
+int size = st.st_size;
+printf("Size: %d\n", size);
 ```
