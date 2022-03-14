@@ -82,7 +82,12 @@ int main(int argc, char *argv[]) {
     i++;
   }
 
-  store_png(output, img, NULL, 0);
+  if (store_png(output, img, NULL, 0)) {
+    free(img->px);
+    free(img);
+    printf("Error saving the image\n");
+    return 1;
+  }
   free(img->px);
   free(img);
   return 0;

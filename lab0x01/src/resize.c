@@ -30,6 +30,9 @@ int main(int argc, char *argv[]) {
   unsigned short height = img->size_y;
   unsigned short width = img->size_x;
 
+  if (height * factor > USHRT_MAX || width * factor > USHRT_MAX) {
+    return 1;
+  }
   unsigned short new_height = (unsigned)(height * factor);
   unsigned short new_width = (unsigned)(width * factor);
 
@@ -71,7 +74,12 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  store_png(output, new_img, NULL, 0);
+  if (store_png(output, new_img, NULL, 0)) {
+    free(img->px);
+    free(img);
+    printf("Error saving the image\n");
+    return 1;
+  }
   free(img->px);
   free(img);
 
