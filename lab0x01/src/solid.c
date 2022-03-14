@@ -89,8 +89,8 @@ int main(int argc, char *argv[]) {
 
   {
     /* Cast a pixel array into a 2D array.
-     * We need extra brackets to prevent goto from jumping into the scope of the
-     * new variable
+     * We need extra brackets to prevent goto from jumping into the scope
+     * of the new variable
      */
     struct pixel(*image_data)[img->size_x] =
         (struct pixel(*)[img->size_x])img->px;

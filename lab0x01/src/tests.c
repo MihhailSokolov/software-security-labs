@@ -264,7 +264,8 @@ END_TEST
  * previous values divided by 2, all of the previous values +- 1) */
 struct image blur_radius_img;
 int blur_radii[20];
-START_TEST(blur_radius_edge_cases) { /* TODO: Implement */ }
+START_TEST(blur_radius_edge_cases) { /* TODO: Implement */
+}
 END_TEST
 
 /* Verify for a random image that the transparency filter works properly */

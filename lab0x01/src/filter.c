@@ -6,7 +6,8 @@
 #define ARG_SIZE 255
 
 /* This filter iterates over the image and calculates the average value of the
- * color channels for every pixel This value is then written to all the channels
+ * color channels for every pixel
+ * This value is then written to all the channels
  * to get the grayscale representation of the image
  */
 void filter_grayscale(struct image *img, void *weight_arr) {
@@ -737,7 +738,8 @@ int __attribute__((weak)) main(int argc, char *argv[]) {
     fil.arg = NULL;
     fil.filter = filter_negative;
   } else if (!strcmp(command, "blur")) {
-    /* Bad filter radius will just be interpretted as 0 - no change to the image
+    /* Bad filter radius will just be interpretted as 0
+       no change to the image
      */
     radius = atoi(arg);
     fil.filter = filter_blur;

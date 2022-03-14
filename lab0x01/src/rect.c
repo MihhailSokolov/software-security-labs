@@ -4,8 +4,8 @@
 int main(int argc, char *argv[]) {
   struct image *img;
 
-  /* There isn't any complex error handling in this function, so we use a simple
-   * if */
+  /* There isn't any complex error handling in this function,
+   * so we use a simple if */
   if (argc != 8) {
     printf("Usage: %s input_image output_image top_left_x top_left_y "
            "bottom_right_x bottom_right_y hex_color\n",

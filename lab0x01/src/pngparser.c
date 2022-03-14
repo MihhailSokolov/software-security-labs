@@ -511,7 +511,7 @@ struct image *parse_png_no_interlace(png_chunk_ihdr *ihdr_chunk,
                                inflated_size);
 }
 
-/* Parses a Y0L0 PNG from read data. Returns NULL if the image is interlaced. */
+/* Parses a Y0L0 PNG from read data. Returns NULL if the image is interlaced.*/
 struct image *parse_png(png_chunk_ihdr *ihdr_chunk, png_chunk_plte *plte_chunk,
                         uint8_t *inflated_buf, uint32_t inflated_size) {
   if (!ihdr_chunk) {
@@ -638,8 +638,8 @@ int load_png(const char *filename, struct image **img) {
     if (is_chunk_idat(current_chunk)) {
       png_chunk_idat *idat_chunk;
 
-      // If we have already processed a sequence of IDATs, why do we see another
-      // one here?
+      // If we have already processed a sequence of IDATs,
+      // why do we see another one here?
       if (idat_train_finished) {
         goto error;
       }
@@ -755,7 +755,8 @@ struct png_header_ihdr fill_ihdr_plte(struct image *img) {
   return ihdr;
 }
 
-// Expects the length in the little endian format and converts it to big endian
+// Expects the length in the little endian format
+// and converts it to big endian
 // Calculates and fills the CRC value for a chunk
 void fill_chunk_crc(struct png_chunk *chunk) {
   chunk->crc =
