@@ -19,8 +19,8 @@ void filter_grayscale(struct image *img, void *weight_arr) {
    *
    * FIX: Initialize both variables to 0.
    */
-  for (unsigned short i = 0; i < img->size_y; i++) {
-    for (unsigned short j = 0; j < img->size_x; j++) {
+  for (unsigned int i = 0; i < img->size_y; i++) {
+    for (unsigned int j = 0; j < img->size_x; j++) {
       double luminosity = 0;
 
       luminosity += weights[0] * image_data[i][j].red;
@@ -778,7 +778,12 @@ int __attribute__((weak)) main(int argc, char *argv[]) {
     goto error_filter;
   }
 
-  store_png(output, img, NULL, 0);
+  if (store_png(output, img, NULL, 0)) {
+    free(img->px);
+    free(img);
+    printf("Error saving the image\n");
+    return 1;
+  }
   free(img->px);
   free(img);
   return 0;

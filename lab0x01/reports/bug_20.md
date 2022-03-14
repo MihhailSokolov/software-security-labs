@@ -10,7 +10,7 @@ Loops for drawing the circle have one iteration more than needed. They should go
 In `circle.c:52` and `circle.c:75`
 
 ## Expected vs Observed
-We expect program to cdraw a circle with diameter of `2 * radius`. We observe that it draws circle with diameter of `2 * radius + 1`.
+We expect program to draw a circle with diameter of `2 * radius`. We observe that it draws circle with diameter of `2 * radius + 1`.
 
 ## Steps to Reproduce
 
