@@ -255,7 +255,53 @@ START_TEST(blur_functionality) {
       {black, black, black}, {black, white, black}, {black, black, black}};
   struct image img = {3, 3, &px};
 
-  /* TODO: Implement */
+  for (int radius = 0; radius <= 3; radius++) {
+    struct image blurred_img = duplicate_img(img);
+    filter_blur(&blurred_img, &radius);
+    if (radius == 0) {
+      for (long i = 0; i < img.size_x * img.size_y; i++) {
+        ck_assert_uint_eq(blurred_img.px[i].red, img.px[i].red);
+        ck_assert_uint_eq(blurred_img.px[i].green, img.px[i].green);
+        ck_assert_uint_eq(blurred_img.px[i].blue, img.px[i].blue);
+        ck_assert_uint_eq(blurred_img.px[i].alpha, img.px[i].alpha);
+      }
+    } else if (radius == 1) {
+      struct pixel px1 = {28, 28, 28, 113};
+      struct pixel px2 = {28, 28, 28, 170};
+      struct pixel px3 = {28, 28, 28, 255};
+      struct pixel blurred_px[3][3] = {
+          {px1, px2, px1}, {px2, px3, px2}, {px1, px2, px1}};
+      struct image test_img = {3, 3, blurred_px};
+      for (long i = 0; i < test_img.size_x * test_img.size_y; i++) {
+        ck_assert_uint_eq(blurred_img.px[i].red, test_img.px[i].red);
+        ck_assert_uint_eq(blurred_img.px[i].green, test_img.px[i].green);
+        ck_assert_uint_eq(blurred_img.px[i].blue, test_img.px[i].blue);
+        ck_assert_uint_eq(blurred_img.px[i].alpha, test_img.px[i].alpha);
+      }
+    } else if (radius == 2) {
+      struct pixel px = {10, 10, 10, 91};
+      struct pixel blurred_px[3][3] = {
+          {px, px, px}, {px, px, px}, {px, px, px}};
+      struct image test_img = {3, 3, blurred_px};
+      for (long i = 0; i < test_img.size_x * test_img.size_y; i++) {
+        ck_assert_uint_eq(blurred_img.px[i].red, test_img.px[i].red);
+        ck_assert_uint_eq(blurred_img.px[i].green, test_img.px[i].green);
+        ck_assert_uint_eq(blurred_img.px[i].blue, test_img.px[i].blue);
+        ck_assert_uint_eq(blurred_img.px[i].alpha, test_img.px[i].alpha);
+      }
+    } else {
+      struct pixel px = {5, 5, 5, 46};
+      struct pixel blurred_px[3][3] = {
+          {px, px, px}, {px, px, px}, {px, px, px}};
+      struct image test_img = {3, 3, blurred_px};
+      for (long i = 0; i < test_img.size_x * test_img.size_y; i++) {
+        ck_assert_uint_eq(blurred_img.px[i].red, test_img.px[i].red);
+        ck_assert_uint_eq(blurred_img.px[i].green, test_img.px[i].green);
+        ck_assert_uint_eq(blurred_img.px[i].blue, test_img.px[i].blue);
+        ck_assert_uint_eq(blurred_img.px[i].alpha, test_img.px[i].alpha);
+      }
+    }
+  }
 }
 END_TEST
 
@@ -264,7 +310,10 @@ END_TEST
  * previous values divided by 2, all of the previous values +- 1) */
 struct image blur_radius_img;
 int blur_radii[20];
-START_TEST(blur_radius_edge_cases) { /* TODO: Implement */
+int blur_radii_index = -1;
+START_TEST(blur_radius_edge_cases) {
+  blur_radii_index += 1 % 20;
+  filter_blur(&blur_radius_img, &blur_radii[blur_radii_index]);
 }
 END_TEST
 
@@ -300,9 +349,26 @@ int main() {
 
   srand(time(NULL) ^ getpid());
   blur_radius_img = generate_rand_img();
-  int tmp[20] = {
-      /* TODO: Fill in required radii */
-  };
+  int tmp[20] = {INT_MIN,
+                 INT_MIN / 2,
+                 INT_MIN + 1,
+                 INT_MIN - 1,
+                 INT_MAX,
+                 INT_MAX / 2,
+                 INT_MAX + 1,
+                 INT_MAX - 1,
+                 0,
+                 0 / 2,
+                 1,
+                 -1,
+                 blur_radius_img.size_x,
+                 blur_radius_img.size_x / 2,
+                 blur_radius_img.size_x + 1,
+                 blur_radius_img.size_x - 1,
+                 blur_radius_img.size_y,
+                 blur_radius_img.size_y / 2,
+                 blur_radius_img.size_y + 1,
+                 blur_radius_img.size_y - 1};
   memcpy(blur_radii, tmp, sizeof(blur_radii));
   tcase_add_loop_test(tc1, blur_radius_edge_cases, 0,
                       sizeof(blur_radii) / sizeof(blur_radii[0]));
