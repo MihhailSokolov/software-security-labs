@@ -145,6 +145,9 @@ void filter_negative(struct image *img, void *noarg) {
 /* Set the transparency of the picture to the value (0-255) passed as argument
  */
 void filter_transparency(struct image *img, void *transparency) {
+  if (img == NULL) {
+    return;
+  }
   struct pixel(*image_data)[img->size_x] =
       (struct pixel(*)[img->size_x])img->px;
   uint8_t local_alpha = *((uint8_t *)transparency);
@@ -182,7 +185,28 @@ void filter_edge_detect(struct image *img, void *threshold_arg) {
   struct pixel(*image_data)[img->size_x] =
       (struct pixel(*)[img->size_x])img->px;
 
-  uint8_t threshold = *(uint8_t *)threshold_arg;
+  uint8_t threshold = *((uint8_t *)threshold_arg);
+
+  if (threshold == 0) {
+    for (long i = 1; i < img->size_y; i++) {
+      for (long j = 1; j < img->size_x; j++) {
+        image_data[i][j].red = 0;
+        image_data[i][j].green = 0;
+        image_data[i][j].blue = 0;
+      }
+    }
+    return;
+  }
+  if (threshold == 255) {
+    for (long i = 1; i < img->size_y; i++) {
+      for (long j = 1; j < img->size_x; j++) {
+        image_data[i][j].red = 255;
+        image_data[i][j].green = 255;
+        image_data[i][j].blue = 255;
+      }
+    }
+    return;
+  }
 
   double weights_x[3][3] = {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}};
   double weights_y[3][3] = {{1, 2, 1}, {0, 0, 0}, {-1, -2, -1}};

@@ -103,7 +103,7 @@ START_TEST(grayscale_functionality) {
 }
 END_TEST
 
-START_TEST(edge_threshold) {
+START_TEST(edge_threshold1) {
   struct image img;
   struct pixel pxl;
   uint8_t threshold;
@@ -114,6 +114,18 @@ START_TEST(edge_threshold) {
   /* These calls should not crash */
   threshold = 0;
   filter_edge_detect(&img, &threshold);
+}
+END_TEST
+
+START_TEST(edge_threshold2) {
+  struct image img;
+  struct pixel pxl;
+  uint8_t threshold;
+
+  img.size_x = img.size_y = 1;
+  img.px = &pxl;
+
+  /* These calls should not crash */
   threshold = 255;
   filter_edge_detect(&img, &threshold);
 }
@@ -131,7 +143,6 @@ START_TEST(edge_example_image) {
   img_dup = duplicate_img(*img);
   filter_edge_detect(img, &edge_thresholds[_i]);
 
-  /* Compare to known good image */
   ck_assert_int_eq(load_png(edge_deserts[_i], &img_edge), 0);
 
   ck_assert_uint_eq(img_edge->size_x, img->size_x);
@@ -340,9 +351,6 @@ int main() {
   TCase *tc2 = tcase_create("basic functionality tests");
   suite_add_tcase(s, tc2);
 
-  /* TODO: Add more tests here */
-  /* Add tests for input limits, and general functionality tests */
-
   /* Tests for limits*/
   tcase_add_test(tc1, grayscale_double_limit);
   tcase_add_test(tc1, negative_zero_size);
@@ -374,7 +382,8 @@ int main() {
                       sizeof(blur_radii) / sizeof(blur_radii[0]));
   free(blur_radius_img.px);
 
-  tcase_add_test(tc1, edge_threshold);
+  tcase_add_test(tc1, edge_threshold1);
+  tcase_add_test(tc1, edge_threshold2);
   tcase_add_test(tc1, transparency_edge_case);
 
   /* Tests for functionality */
@@ -384,7 +393,7 @@ int main() {
   tcase_add_test(tc2, blur_functionality);
   tcase_add_test(tc2, transparency_functionality);
   tcase_add_loop_test(tc2, edge_example_image, 0,
-                      sizeof(edge_deserts) / sizeof(edge_deserts[0]));
+                      sizeof(edge_deserts) / sizeof(edge_deserts[0]));  
   tcase_add_test(tc2, edge_checkerboard);
 
   SRunner *sr = srunner_create(s);
