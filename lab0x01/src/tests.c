@@ -187,7 +187,7 @@ START_TEST(grayscale_examples) {
   filter_grayscale(img, weights);
   ck_assert_int_eq(load_png(grayscale_output[_i], &new_img), 0);
   ck_assert_uint_eq(new_img->size_x, img->size_x);
-  ck_assert_uint_eq(new_img->size_x, img->size_x);
+  ck_assert_uint_eq(new_img->size_y, img->size_y);
   for (long j = 0; j < img->size_x * img->size_y; j++) {
     ck_assert_uint_eq(new_img->px[j].red, img->px[j].red);
     ck_assert_uint_eq(new_img->px[j].green, img->px[j].green);

@@ -184,27 +184,6 @@ void filter_edge_detect(struct image *img, void *threshold_arg) {
 
   uint8_t threshold = *(uint8_t *)threshold_arg;
 
-  if (threshold == 0) {
-    for (long i = 1; i < img->size_y; i++) {
-      for (long j = 1; j < img->size_x; j++) {
-        image_data[i][j].red = 0;
-        image_data[i][j].green = 0;
-        image_data[i][j].blue = 0;
-      }
-    }
-    return;
-  }
-  if (threshold == 255) {
-    for (long i = 1; i < img->size_y; i++) {
-      for (long j = 1; j < img->size_x; j++) {
-        image_data[i][j].red = 255;
-        image_data[i][j].green = 255;
-        image_data[i][j].blue = 255;
-      }
-    }
-    return;
-  }
-
   double weights_x[3][3] = {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}};
   double weights_y[3][3] = {{1, 2, 1}, {0, 0, 0}, {-1, -2, -1}};
 
@@ -237,7 +216,7 @@ void filter_edge_detect(struct image *img, void *threshold_arg) {
           if (x < 0) {
             x = 0;
           }
-          gx_red += image_data[y][y].red * weights_x[wy][wx];
+          gx_red += image_data[y][x].red * weights_x[wy][wx];
           gx_green += image_data[y][x].green * weights_x[wy][wx];
           gx_blue += image_data[y][x].blue * weights_x[wy][wx];
           gy_red += image_data[y][x].red * weights_y[wy][wx];
@@ -245,10 +224,11 @@ void filter_edge_detect(struct image *img, void *threshold_arg) {
           gy_blue += image_data[y][x].blue * weights_y[wy][wx];
         }
       }
-      int g_red = sqrt(pow(gx_red, 2) + pow(gy_red, 2));
-      int g_green = sqrt(pow(gx_green, 2) + pow(gy_green, 2));
-      int g_blue = sqrt(pow(gx_blue, 2) + pow(gy_blue, 2));
-      int g = sqrt(pow(g_red, 2) + pow(g_green, 2) + pow(g_blue, 2));
+      double g_red = sqrt(pow(gx_red, 2) + pow(gy_red, 2));
+      double g_green = sqrt(pow(gx_green, 2) + pow(gy_green, 2));
+      double g_blue = sqrt(pow(gx_blue, 2) + pow(gy_blue, 2));
+      double g = sqrt(pow(g_red, 2) + pow(g_green, 2) + pow(g_blue, 2));
+      
       if (g > threshold) {
         new_data[i][j].red = 0;
         new_data[i][j].green = 0;
