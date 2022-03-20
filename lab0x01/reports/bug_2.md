@@ -17,7 +17,7 @@ We expect a program to shutdown gracefully in case of an error. We observe that 
 ### Command
 
 ```
-???
+/checkerboard bw.png 100 100 10 ffffff 000000
 ```
 ### Proof-of-Concept Input (if needed)
 (Not needed)
