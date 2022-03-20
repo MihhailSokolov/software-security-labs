@@ -252,7 +252,7 @@ void filter_edge_detect(struct image *img, void *threshold_arg) {
       double g_green = sqrt(pow(gx_green, 2) + pow(gy_green, 2));
       double g_blue = sqrt(pow(gx_blue, 2) + pow(gy_blue, 2));
       double g = sqrt(pow(g_red, 2) + pow(g_green, 2) + pow(g_blue, 2));
-      
+
       if (g > threshold) {
         new_data[i][j].red = 0;
         new_data[i][j].green = 0;

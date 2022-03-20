@@ -393,7 +393,7 @@ int main() {
   tcase_add_test(tc2, blur_functionality);
   tcase_add_test(tc2, transparency_functionality);
   tcase_add_loop_test(tc2, edge_example_image, 0,
-                      sizeof(edge_deserts) / sizeof(edge_deserts[0]));  
+                      sizeof(edge_deserts) / sizeof(edge_deserts[0]));
   tcase_add_test(tc2, edge_checkerboard);
 
   SRunner *sr = srunner_create(s);
