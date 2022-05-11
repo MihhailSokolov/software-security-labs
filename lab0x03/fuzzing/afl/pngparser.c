@@ -224,6 +224,7 @@ int is_png_filesig_valid(struct png_header_filesig *filesig) {
  * EDIT THIS FUNCTION BEFORE FUZZING!
  */
 int is_png_chunk_valid(struct png_chunk *chunk) {
+  return 1;
   uint32_t crc_value =
       crc((unsigned char *)&chunk->chunk_type, sizeof(int32_t));
 
@@ -406,6 +407,9 @@ struct image *convert_color_palette_to_image(png_chunk_ihdr *ihdr_chunk,
     }
     for (uint32_t idx = 0; idx < width; idx++) {
       palette_idx = inflated_buf[idy * (1 + width) + idx + 1];
+      if (palette_idx >= sizeof(plte_entries)/sizeof(plte_entries[0])) {
+        return NULL;
+      }
       img->px[idy * img->size_x + idx].red = plte_entries[palette_idx].red;
       img->px[idy * img->size_x + idx].green = plte_entries[palette_idx].green;
       img->px[idy * img->size_x + idx].blue = plte_entries[palette_idx].blue;
@@ -685,9 +689,9 @@ success:
     free(deflated_buf);
 
   if (current_chunk) {
-    if (current_chunk->chunk_data) {
-      free(current_chunk->chunk_data);
-    }
+    // if (current_chunk->chunk_data) {
+    //   free(current_chunk->chunk_data);
+    // }
     free(current_chunk);
   }
 
@@ -699,15 +703,17 @@ success:
 
   return 0;
 error:
-  fclose(input);
+  if (input) {
+    fclose(input);
+  }
 
   if (deflated_buf)
     free(deflated_buf);
 
   if (current_chunk) {
-    if (current_chunk->chunk_data) {
-      free(current_chunk->chunk_data);
-    }
+    // if (current_chunk->chunk_data) {
+    //   free(current_chunk->chunk_data);
+    // }
     free(current_chunk);
   }
 
