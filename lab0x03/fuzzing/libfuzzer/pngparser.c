@@ -540,9 +540,15 @@ int load_png(const char *filename, struct image **img) {
   int idat_train_finished = 0;
 
   int chunk_idx = -1;
-
   struct png_chunk *current_chunk = malloc(sizeof(struct png_chunk));
-
+  
+  if (!filename) {
+    if (current_chunk) {
+      free(current_chunk);
+    }
+    return 1;
+  }
+  
   FILE *input = fopen(filename, "rb");
 
   // Has the file been open properly?
@@ -671,6 +677,7 @@ int load_png(const char *filename, struct image **img) {
   }
 
 success:
+  current_chunk->chunk_data = NULL;
   fclose(input);
 
   if (deflated_buf)
@@ -691,7 +698,11 @@ success:
 
   return 0;
 error:
-  fclose(input);
+  current_chunk->chunk_data = NULL;
+  
+  if (input) {
+    fclose(input);
+  }
 
   if (deflated_buf)
     free(deflated_buf);
@@ -944,6 +955,9 @@ error:
 
 // Writes the first two chunks for a RGBA image
 int store_png_rgb_alpha(FILE *output, struct image *img) {
+  if (!img) {
+    return 1;
+  }
   store_ihdr_rgb_alpha(output, img);
   store_idat_rgb_alpha(output, img);
 }
@@ -977,6 +991,9 @@ int store_plte(FILE *output, struct pixel *palette, uint32_t palette_length) {
 // Writes the first 3 chunks for a palette Y0L0 PNG image
 int store_png_palette(FILE *output, struct image *img, struct pixel *palette,
                       uint32_t palette_length) {
+  if (!img) {
+    return 1;
+  }
   store_ihdr_plte(output, img);
   store_plte(output, palette, palette_length);
   store_idat_plte(output, img, palette, palette_length);
@@ -996,6 +1013,9 @@ int store_png_chunk_iend(FILE *output) {
 int store_png(const char *filename, struct image *img, struct pixel *palette,
               uint8_t palette_length) {
   int result = 0;
+  if (!filename) {
+    return 1;
+  }
   FILE *output = fopen(filename, "wb");
 
   store_filesig(output);
